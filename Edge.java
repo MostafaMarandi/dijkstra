@@ -4,6 +4,7 @@ public class Edge {
 	public Vertex from;
 	public Vertex to;
 	public double cost;
+	public String status = "";
 	
 	public Edge(Vertex from, Vertex to, double cost) {
 		super();

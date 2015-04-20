@@ -42,11 +42,13 @@ public class Graph {
 			
 			//Output: addedge
 			g.addEdge("Prem", "Kumar", 9.9);
-			g.printGraph();
 			//Output: deleteedge
 			g.deleteEdge("Kumar","Prem");
+			//Output: edgedown
+			g.edgeDown("Woodward", "Belk");
+			//Output: edgeup
+			g.edgeUp("Woodward", "Belk");
 			g.printGraph();
-			
 		} 
 		catch (IOException e) {
 			System.err.println(e);

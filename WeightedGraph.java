@@ -63,11 +63,38 @@ public class WeightedGraph {
 		}
 	}
 
-	public void edgeDown(String tailVertex, String headVertex){
-		
+	/**
+	 * Mark the directed edge as 'DOWN' and therefore unavailable for use if
+	 * there is an edge from tailVertex and headVertex
+	 */
+	public void edgeDown(String tailVertex, String headVertex) {
+		if (vertexMap.get(tailVertex) != null
+				&& vertexMap.get(headVertex) != null) {
+			Vertex u = getVertex(tailVertex);
+			for (Edge edge : u.adjEdges) {
+				if (edge.to.name.equals(headVertex)) {
+					edge.status = "DOWN";
+				}
+			}
+		}
 	}
-	
-	
+
+	/**
+	 * UnMark the directed edge from 'DOWN' to empty string and therefore
+	 * available for use if there is an edge from tailVertex and headVertex
+	 */
+	public void edgeUp(String tailVertex, String headVertex) {
+		if (vertexMap.get(tailVertex) != null
+				&& vertexMap.get(headVertex) != null) {
+			Vertex u = getVertex(tailVertex);
+			for (Edge edge : u.adjEdges) {
+				if (edge.to.name.equals(headVertex)) {
+					edge.status = "";
+				}
+			}
+		}
+	}
+
 	/**
 	 * If vertexName is not present, it adds a vertex to vertexMap with the
 	 * given name, else return the existing Vertex for the given name.
@@ -91,11 +118,12 @@ public class WeightedGraph {
 		Collections.sort(sortedVertex);
 		for (String key : sortedVertex) {
 			Vertex w = vertexMap.get(key);
+			// TODO: Add the status for DOWN nodes
 			System.out.println(w.name);
 			ArrayList<String> neighborList = new ArrayList<String>();
 			for (Edge edge : w.adjEdges) {
-				// TODO: Add the status for DOWN nodes
-				neighborList.add(edge.to.name + " " + edge.cost);
+				neighborList.add(edge.to.name + " " + edge.cost + " "
+						+ edge.status);
 			}
 			Collections.sort(neighborList);
 			for (String neighbor : neighborList) {
