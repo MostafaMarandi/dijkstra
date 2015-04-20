@@ -48,6 +48,11 @@ public class Graph {
 			g.edgeDown("Woodward", "Belk");
 			//Output: edgeup
 			g.edgeUp("Woodward", "Belk");
+			//Output: vertexdown
+			g.vertexDown("Woodward");
+			g.vertexDown("Prem");
+			g.vertexDown("Belk");
+			g.vertexUp("Woodward");
 			g.printGraph();
 		} 
 		catch (IOException e) {

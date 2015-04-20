@@ -95,6 +95,20 @@ public class WeightedGraph {
 		}
 	}
 
+	
+	public void vertexDown(String vertex){
+		if (vertexMap.get(vertex)!=null) {
+			Vertex v = getVertex(vertex);
+			v.status = "DOWN";
+		}
+	}
+	
+	public void vertexUp(String vertex){
+		if (vertexMap.get(vertex)!=null) {
+			Vertex v = getVertex(vertex);
+			v.status = "";
+		}
+	}
 	/**
 	 * If vertexName is not present, it adds a vertex to vertexMap with the
 	 * given name, else return the existing Vertex for the given name.
@@ -119,7 +133,7 @@ public class WeightedGraph {
 		for (String key : sortedVertex) {
 			Vertex w = vertexMap.get(key);
 			// TODO: Add the status for DOWN nodes
-			System.out.println(w.name);
+			System.out.println(w.name+" "+w.status);
 			ArrayList<String> neighborList = new ArrayList<String>();
 			for (Edge edge : w.adjEdges) {
 				neighborList.add(edge.to.name + " " + edge.cost + " "
