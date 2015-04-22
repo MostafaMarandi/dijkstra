@@ -14,7 +14,8 @@ public class Graph {
 
 		WeightedGraph g = new WeightedGraph();
 		try {
-			FileReader fin = new FileReader(args[0]);
+//			FileReader fin = new FileReader(args[0]);
+			FileReader fin = new FileReader("network.txt");
 			Scanner graphFile = new Scanner(fin);
 
 			// Read the edges and insert
@@ -41,19 +42,22 @@ public class Graph {
 			g.printGraph();
 			
 			//Output: addedge
-			g.addEdge("Prem", "Kumar", 9.9);
+//			g.addEdge("Prem", "Kumar", 9.9);
 			//Output: deleteedge
-			g.deleteEdge("Kumar","Prem");
+//			g.deleteEdge("Kumar","Prem");
 			//Output: edgedown
-			g.edgeDown("Woodward", "Belk");
+//			g.edgeDown("Woodward", "Belk");
 			//Output: edgeup
-			g.edgeUp("Woodward", "Belk");
+//			g.edgeUp("Woodward", "Belk");
 			//Output: vertexdown
-			g.vertexDown("Woodward");
-			g.vertexDown("Prem");
-			g.vertexDown("Belk");
-			g.vertexUp("Woodward");
-			g.printGraph();
+//			g.vertexDown("Woodward");
+//			g.vertexDown("Prem");
+//			g.vertexDown("Belk");
+			//Output: vertexup
+//			g.vertexUp("Woodward");
+//			g.printGraph();
+			g.dijPath("Grigg");
+			g.printPath("Education");
 		} 
 		catch (IOException e) {
 			System.err.println(e);

@@ -6,7 +6,7 @@ public class Vertex {
 	public String name; // Vertex name
 	public LinkedList<Edge> adjEdges; // Adjacent vertices
 	public Vertex prev; // Previous vertex on shortest path
-	public int dist; // Distance of path
+	public double dist; // Distance of path
 	public String status = "";
 
 	public Vertex(String nm) {

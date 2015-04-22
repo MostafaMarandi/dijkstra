@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class WeightedGraph {
-	public static final int INFINITY = Integer.MAX_VALUE;
+	public static final double INFINITY = Double.MAX_VALUE;
 	private Map<String, Vertex> vertexMap = new HashMap<String, Vertex>();
 
 	public void addBiEdge(String sourceName, String destName, double cost) {
@@ -17,7 +16,6 @@ public class WeightedGraph {
 		Edge vu = new Edge(v, u, cost);
 		u.adjEdges.add(uv);
 		v.adjEdges.add(vu);
-
 		// Debug Message: - Created printGraph so disabling this
 		// System.out.println(uv.toString());
 		// System.out.println(vu.toString());
@@ -95,20 +93,20 @@ public class WeightedGraph {
 		}
 	}
 
-	
-	public void vertexDown(String vertex){
-		if (vertexMap.get(vertex)!=null) {
+	public void vertexDown(String vertex) {
+		if (vertexMap.get(vertex) != null) {
 			Vertex v = getVertex(vertex);
 			v.status = "DOWN";
 		}
 	}
-	
-	public void vertexUp(String vertex){
-		if (vertexMap.get(vertex)!=null) {
+
+	public void vertexUp(String vertex) {
+		if (vertexMap.get(vertex) != null) {
 			Vertex v = getVertex(vertex);
 			v.status = "";
 		}
 	}
+
 	/**
 	 * If vertexName is not present, it adds a vertex to vertexMap with the
 	 * given name, else return the existing Vertex for the given name.
@@ -132,8 +130,7 @@ public class WeightedGraph {
 		Collections.sort(sortedVertex);
 		for (String key : sortedVertex) {
 			Vertex w = vertexMap.get(key);
-			// TODO: Add the status for DOWN nodes
-			System.out.println(w.name+" "+w.status);
+			System.out.println(w.name + " " + w.status);
 			ArrayList<String> neighborList = new ArrayList<String>();
 			for (Edge edge : w.adjEdges) {
 				neighborList.add(edge.to.name + " " + edge.cost + " "
@@ -144,6 +141,116 @@ public class WeightedGraph {
 				System.out.println("  " + neighbor);
 			}
 		}
+	}
+
+	/**
+	 * Dijkstra's Algorithm
+	 */
+
+	// 1 function Dijkstra(Graph, source):
+	// 2
+	// 3 dist[source] ← 0 // Distance from source to source
+	// 4 prev[source] ← undefined // Previous node in optimal path
+	// initialization
+	// 5
+	// 6 for each vertex v in Graph: // Initialization
+	// 7 if v ≠ source // Where v has not yet been removed from Q (unvisited
+	// nodes)
+	// 8 dist[v] ← infinity // Unknown distance function from source to v
+	// 9 prev[v] ← undefined // Previous node in optimal path from source
+	// 10 end if
+	// 11 add v to Q // All nodes initially in Q (unvisited nodes)
+	// 12 end for
+	// 13
+	// 14 while Q is not empty:
+	// 15 u ← vertex in Q with min dist[u] // Source node in first case
+	// 16 remove u from Q
+	// 17
+	// 18 for each neighbor v of u: // where v is still in Q.
+	// 19 alt ← dist[u] + length(u, v)
+	// 20 if alt < dist[v]: // A shorter path to v has been found
+	// 21 dist[v] ← alt
+	// 22 prev[v] ← u
+	// 23 end if
+	// 24 end for
+	// 25 end while
+	// 26
+	// 27 return dist[], prev[]
+	// 28
+	// 29 end function
+
+	public void dijPath(String startName) {
+
+		Vertex start = vertexMap.get(startName);
+		if (start == null) {
+			System.out.println("Start vertex not found!");
+			return;
+		}
+		// TODO: Initialization
+		start.dist = 0.0;
+		LinkedList<Vertex> q = new LinkedList<Vertex>();
+		for (Vertex v : vertexMap.values()) {
+			q.add(v);
+		}
+
+		while (!q.isEmpty()) {
+
+			Vertex u = returnMin(q);
+			q.remove(u);
+
+			for (Edge edge : u.adjEdges) {
+				// System.out.println(edge.cost);
+				double alt = u.dist + edge.cost;
+				alt = (double) Math.round(alt * 100) / 100;
+				// System.out.println("alt : "+alt);
+				if (alt < edge.to.dist) {
+					edge.to.dist = alt;
+					edge.to.prev = u;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Takes destination vertex name as destination name and convert to the
+	 * Vertex object and calls the printDijPath Method
+	 */
+	public void printPath(String destName) {
+		Vertex w = vertexMap.get(destName);
+		if (w == null)
+			throw new NoSuchElementException("Destination vertex not found");
+		else if (w.dist == INFINITY)
+			System.out.println(destName + " is unreachable");
+		else {
+			System.out.print("(Distance is: " + w.dist + ") ");
+			printDijPath(w);
+			System.out.println();
+		}
+	}
+
+	/**
+	 * Recursive method prints the path between the source and destination
+	 */
+	public void printDijPath(Vertex end) {
+		if (end.prev != null) {
+			printDijPath(end.prev);
+			System.out.print(" to ");
+		}
+		System.out.print(end.name);
+	}
+
+	
+	private Vertex returnMin(LinkedList<Vertex> l) {
+
+		Vertex v = null;
+		double currentMin = INFINITY;
+		for (Vertex i : l) {
+			if (currentMin > i.dist) {
+				currentMin = i.dist;
+				v = i;
+			}
+		}
+		return v;
 	}
 
 }
