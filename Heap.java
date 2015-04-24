@@ -2,62 +2,102 @@ import java.util.ArrayList;
 
 public class Heap {
 
-	private ArrayList sortedQ;
+	private ArrayList<Vertex> sortedQ;
 
-	public Heap(ArrayList ar) {
+	// Constructor
+	public Heap(ArrayList<Vertex> ar) {
 		this.sortedQ = ar;
 		build(this.sortedQ, sortedQ.size());
 	}
 
 	// Build Min Heap
-	private void build(ArrayList unsortedQ, int n) {
+	private void build(ArrayList<Vertex> unsortedQ, int n) {
 
-		for (int i = (n / 2) - 1; i <= 0; i--) {
+		for (int i = (n / 2) - 1; i >= 0; i--) {
 			minHeapify(unsortedQ, i, n);
 		}
 	}
 
 	// Min Heapify
-	private void minHeapify(ArrayList unsortedQ, int i, int n) {
+	// Additional conditions to keep track of heap_index
+	private void minHeapify(ArrayList<Vertex> unsortedQ, int i, int n) {
 		int l, r;
 		l = left(i);
 		r = right(i);
 		int smallest;
-		if (l <= n && getDist(unsortedQ.get(l)) < getDist(unsortedQ.get(i))) {
-			smallest = l;
+		if (l <= n - 1) {
+			if (getDist(unsortedQ.get(l)) < getDist(unsortedQ.get(i))) {
+				smallest = l;
+				unsortedQ.get(l).heap_index = i;
+				unsortedQ.get(i).heap_index = l;
+			} else {
+				unsortedQ.get(l).heap_index = l;
+				unsortedQ.get(i).heap_index = i;
+				smallest = i;
+			}
+
 		} else {
+			unsortedQ.get(i).heap_index = i;
 			smallest = i;
 		}
-		if (r <= n
-				&& getDist(unsortedQ.get(r)) < getDist(unsortedQ.get(smallest))) {
-			smallest = r;
+		if (r <= n - 1) {
+			if (getDist(unsortedQ.get(r)) < getDist(unsortedQ.get(smallest))) {
+				unsortedQ.get(r).heap_index = i;
+				unsortedQ.get(i).heap_index = r;
+				smallest = r;
+			} else{
+				unsortedQ.get(r).heap_index = r;
+				unsortedQ.get(i).heap_index = i;
+			}
 		}
+
 		if (smallest != i) {
-			Object temp = unsortedQ.get(i);
+			Vertex temp = unsortedQ.get(i);
 			unsortedQ.set(i, unsortedQ.get(smallest));
 			unsortedQ.set(smallest, temp);
 			minHeapify(unsortedQ, smallest, n);
 		}
 	}
 
-	//ExtractMin
+	// ExtractMin
 	// Removing last element costs O(1) in ArrayList
 	// Ref:http://stackoverflow.com/questions/322715/when-to-use-linkedlist-over-arraylist
-	public Object extractMin(ArrayList sortedQ, int n) {
-		
+	public Vertex extractMin(ArrayList<Vertex> sortedQ, int n) {
+
 		if (n < 1) {
 			System.out.println("Min-Heap undeflow!");
 			return null;
 		}
-		Object min = sortedQ.get(0);
+		Vertex min = sortedQ.get(0);
 		sortedQ.set(0, sortedQ.get(n - 1));
 		sortedQ.remove(n - 1);
 		n = n - 1;
-		minHeapify(sortedQ, 0, n);
+		if (n > 0) {
+			minHeapify(sortedQ, 0, n);
+		}
 		
+
 		return min;
 	}
 
+	// Decrease Priority/Key
+	public void decreaseKey(int i, double key) {
+		if (sortedQ.get(i).dist < key) {
+			return;
+		}
+		sortedQ.get(i).dist = key;
+		while (i > 0 && sortedQ.get(parent(i)).dist > sortedQ.get(i).dist) {
+			Vertex temp = sortedQ.get(i);
+			sortedQ.set(i, sortedQ.get(parent(i)));
+			sortedQ.set(parent(i), temp);
+			i = parent(i);
+		}
+	}
+
+	// Get the Parent of a node
+	private int parent(int i){
+		return (i-1)/2;
+	}
 	// Get the left child of the node
 	private int left(int i) {
 		return 2 * i + 1;
@@ -68,10 +108,18 @@ public class Heap {
 		return 2 * i + 2;
 	}
 
+	public boolean isEmpty() {
+		return sortedQ.isEmpty();
+	}
+
+	// Dummy extraxtMin for DataAbstraction
+	public Vertex extractMin() {
+		return extractMin(sortedQ, sortedQ.size());
+	}
+
 	// Change this method to change the value based on which the queue should be
 	// sorted
-	private double getDist(Object a) {
-		Vertex v = (Vertex) a;
+	private double getDist(Vertex v) {
 		return v.dist;
 	}
 }

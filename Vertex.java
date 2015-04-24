@@ -8,6 +8,7 @@ public class Vertex {
 	public Vertex prev; // Previous vertex on shortest path
 	public double dist; // Distance of path
 	public String status = "";
+	public int heap_index; //Used to maintain the current position in the Binary Heap
 
 	public Vertex(String nm) {
 		name = nm;

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -207,18 +208,20 @@ public class WeightedGraph {
 		}
 
 		start.dist = 0.0;
-		LinkedList<Vertex> q = new LinkedList<Vertex>();
-		for (Vertex v : vertexMap.values()) {
-			if (!v.status.equals("DOWN")) {
-				q.add(v);
-			}
-		}
+//		LinkedList<Vertex> q = new LinkedList<Vertex>();
+//		for (Vertex v : vertexMap.values()) {
+//			if (!v.status.equals("DOWN")) {
+//				q.add(v);
+//			}
+//		}
+		
+		Heap pq = new Heap(new ArrayList<Vertex>(vertexMap.values()));
 
 		// Algorithm
-		while (!q.isEmpty()) {
+		while (!pq.isEmpty()) {
 
-			Vertex u = returnMin(q);
-			q.remove(u);
+			Vertex u = (Vertex) pq.extractMin();
+//			q.remove(u);
 
 			for (Edge edge : u.adjEdges) {
 				if (!edge.to.status.equals("DOWN")
@@ -228,6 +231,8 @@ public class WeightedGraph {
 					if (alt < edge.to.dist) {
 						edge.to.dist = alt;
 						edge.to.prev = u;
+						//TODO: Decrease Priority
+						pq.decreaseKey(edge.to.heap_index, alt);
 					}
 				}
 			}
