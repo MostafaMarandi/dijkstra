@@ -27,12 +27,20 @@ public class WeightedGraph {
 	 * headName)
 	 */
 	public void addEdge(String tailName, String headName, double cost) {
+		Boolean updated = false;
 		if (vertexMap.get(tailName) != null && vertexMap.get(headName) != null) {
 			Vertex u = getVertex(tailName);
+			Vertex v = getVertex(headName);
 			for (Edge edge : u.adjEdges) {
 				if (edge.to.name.equals(headName)) {
+					// Edge already exist so Updated
 					edge.cost = cost;
+					updated = true;
 				}
+			}
+			if (!updated) {
+				Edge uv = new Edge(u, v, cost);
+				u.adjEdges.add(uv);
 			}
 		} else {
 			Vertex u = getVertex(tailName);
@@ -181,33 +189,49 @@ public class WeightedGraph {
 
 	public void dijPath(String startName) {
 
+		// Initialization
+		for (Vertex v : vertexMap.values()) {
+			v.dist = INFINITY;
+			v.prev = null;
+		}
+
+		// Initial Check
 		Vertex start = vertexMap.get(startName);
 		if (start == null) {
 			System.out.println("Start vertex not found!");
 			return;
 		}
-		// TODO: Initialization
+		if (start.status.equals("DOWN")) {
+			System.out.println("Start vertex is DOWN!");
+			return;
+		}
+
 		start.dist = 0.0;
 		LinkedList<Vertex> q = new LinkedList<Vertex>();
 		for (Vertex v : vertexMap.values()) {
-			q.add(v);
+			if (!v.status.equals("DOWN")) {
+				q.add(v);
+			}
 		}
 
+		// Algorithm
 		while (!q.isEmpty()) {
 
 			Vertex u = returnMin(q);
 			q.remove(u);
 
 			for (Edge edge : u.adjEdges) {
-				// System.out.println(edge.cost);
-				double alt = u.dist + edge.cost;
-				alt = (double) Math.round(alt * 100) / 100;
-				// System.out.println("alt : "+alt);
-				if (alt < edge.to.dist) {
-					edge.to.dist = alt;
-					edge.to.prev = u;
+				if (!edge.to.status.equals("DOWN")
+						&& !edge.status.equals("DOWN")) {
+					double alt = u.dist + edge.cost;
+					alt = (double) Math.round(alt * 100) / 100;
+					if (alt < edge.to.dist) {
+						edge.to.dist = alt;
+						edge.to.prev = u;
+					}
 				}
 			}
+
 		}
 	}
 
@@ -218,7 +242,7 @@ public class WeightedGraph {
 	public void printPath(String destName) {
 		Vertex w = vertexMap.get(destName);
 		if (w == null)
-			throw new NoSuchElementException("Destination vertex not found");
+			System.out.println("Destination vertex not found");
 		else if (w.dist == INFINITY)
 			System.out.println(destName + " is unreachable");
 		else {
@@ -231,7 +255,7 @@ public class WeightedGraph {
 	/**
 	 * Recursive method prints the path between the source and destination
 	 */
-	public void printDijPath(Vertex end) {
+	private void printDijPath(Vertex end) {
 		if (end.prev != null) {
 			printDijPath(end.prev);
 			System.out.print(" to ");
@@ -239,10 +263,9 @@ public class WeightedGraph {
 		System.out.print(end.name);
 	}
 
-	
 	private Vertex returnMin(LinkedList<Vertex> l) {
 
-		Vertex v = null;
+		Vertex v = l.getFirst();
 		double currentMin = INFINITY;
 		for (Vertex i : l) {
 			if (currentMin > i.dist) {

@@ -4,17 +4,19 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
- * This class name has nothing to do with the code.
- * This file just contains the main method to trigger the program
- * Name is given as Graph, because the instructions are given to do so.
+ * This class name has nothing to do with the code. This file just contains the
+ * main method to trigger the program Name is given as Graph, because the
+ * instructions are given to do so.
  */
 public class Graph {
+
+	private static Boolean quit = false;
 
 	public static void main(String[] args) {
 
 		WeightedGraph g = new WeightedGraph();
 		try {
-//			FileReader fin = new FileReader(args[0]);
+			// FileReader fin = new FileReader(args[0]);
 			FileReader fin = new FileReader("network.txt");
 			Scanner graphFile = new Scanner(fin);
 
@@ -38,29 +40,130 @@ public class Graph {
 					System.err.println("Skipping ill-formatted line " + line);
 				}
 			}
-			//Output: print
-			g.printGraph();
-			
-			//Output: addedge
-//			g.addEdge("Prem", "Kumar", 9.9);
-			//Output: deleteedge
-//			g.deleteEdge("Kumar","Prem");
-			//Output: edgedown
-//			g.edgeDown("Woodward", "Belk");
-			//Output: edgeup
-//			g.edgeUp("Woodward", "Belk");
-			//Output: vertexdown
-//			g.vertexDown("Woodward");
-//			g.vertexDown("Prem");
-//			g.vertexDown("Belk");
-			//Output: vertexup
-//			g.vertexUp("Woodward");
+
+			Scanner input = new Scanner(System.in);
+			String query;
+			while (!quit) {
+				query = input.nextLine();
+				queryMatcher(query, g);
+
+			}
+			// Output: print
+			// g.printGraph();
+
+			// Output: addedge
+			// g.addEdge("Prem", "Kumar", 9.9);
+			// Output: deleteedge
+			// g.deleteEdge("Kumar","Prem");
+			// Output: edgedown
+			// g.edgeDown("Woodward", "Belk");
+			// Output: edgeup
+			// g.edgeUp("Woodward", "Belk");
+			// Output: vertexdown
+			// g.vertexDown("Woodward");
+			// g.vertexDown("Prem");
+			// g.vertexDown("Belk");
+			// Output: vertexup
+			// g.vertexUp("Woodward");
+			// g.printGraph();
+			// g.dijPath("Health");
+			// g.printPath("Education");
+			// g.addEdge("Grigg", "Duke", 2.6);
+//			g.edgeDown("Health", "Education");
+//			g.edgeDown("Woodward", "Education");
+//			g.edgeDown("Duke", "Education");
+//			g.dijPath("Belk");
+//			g.printPath("Education");
 //			g.printGraph();
-			g.dijPath("Grigg");
-			g.printPath("Education");
-		} 
-		catch (IOException e) {
+//			g.edgeUp("Duke", "Education");
+//			g.dijPath("Belk");
+//			g.printPath("Education");
+//			g.printGraph();
+		} catch (IOException e) {
 			System.err.println(e);
+		}
+	}
+
+	private static void queryMatcher(String queryString, WeightedGraph g) {
+
+		String query = queryString;
+		StringTokenizer st = new StringTokenizer(query);
+		int queryLength = st.countTokens();
+		if (queryLength > 4) {
+			System.out
+					.println("Check your query! Queries must be in lowercase!");
+		} else if (queryLength == 1) {
+			String tempQuery = st.nextToken();
+
+			switch (tempQuery) {
+			case "print":
+				g.printGraph();
+				break;
+			case "reachable":
+				// TODO: Add reachable function
+				break;
+			case "quit":
+				quit = true;
+				break;
+			default:
+				System.out.println("Check your query!");
+				break;
+			}
+
+		} else if (queryLength == 2) {
+			String tempQuery0 = st.nextToken();
+			String tempQuery1 = st.nextToken();
+			switch (tempQuery0) {
+			case "vertexdown":
+				g.vertexDown(tempQuery1);
+				break;
+			case "vertexup":
+				g.vertexUp(tempQuery1);
+				break;
+			default:
+				System.out.println("vertexup or vertexdown!");
+				break;
+			}
+		} else if (queryLength == 3) {
+			String tempQuery0 = st.nextToken();
+			String tempQuery1 = st.nextToken();
+			String tempQuery2 = st.nextToken();
+
+			switch (tempQuery0) {
+
+			case "path":
+				g.dijPath(tempQuery1);
+				g.printPath(tempQuery2);
+				break;
+			case "deleteedge":
+				g.deleteEdge(tempQuery1, tempQuery2);
+				break;
+			case "edgedown":
+				g.edgeDown(tempQuery1, tempQuery2);
+				break;
+			case "edgeup":
+				g.edgeUp(tempQuery1, tempQuery2);
+				break;
+			default:
+				System.out.println("3 parameters wrong!");
+			}
+		} else {
+
+			String tempQuery0 = st.nextToken();
+			String tempQuery1 = st.nextToken();
+			String tempQuery2 = st.nextToken();
+			Double tempQuery3 = Double.parseDouble(st.nextToken());
+			System.out.println("cost : " + tempQuery3);
+			switch (tempQuery0) {
+
+			case "addedge":
+				g.addEdge(tempQuery1, tempQuery2, tempQuery3);
+				break;
+			default:
+				System.out.println("4 parameters wrong");
+				break;
+			}
+
 		}
 	}
 
