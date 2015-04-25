@@ -87,6 +87,10 @@ public class Heap {
 		}
 		sortedQ.get(i).dist = key;
 		while (i > 0 && sortedQ.get(parent(i)).dist > sortedQ.get(i).dist) {
+			// Change heap_index
+			sortedQ.get(parent(i)).heap_index = i;
+			sortedQ.get(i).heap_index = parent(i);
+			
 			Vertex temp = sortedQ.get(i);
 			sortedQ.set(i, sortedQ.get(parent(i)));
 			sortedQ.set(parent(i), temp);

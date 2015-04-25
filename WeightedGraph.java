@@ -225,13 +225,14 @@ public class WeightedGraph {
 
 			for (Edge edge : u.adjEdges) {
 				if (!edge.to.status.equals("DOWN")
-						&& !edge.status.equals("DOWN")) {
+						&& !edge.status.equals("DOWN") && u.dist != INFINITY) {
+
 					double alt = u.dist + edge.cost;
 					alt = (double) Math.round(alt * 100) / 100;
 					if (alt < edge.to.dist) {
 						edge.to.dist = alt;
 						edge.to.prev = u;
-						//TODO: Decrease Priority
+						//Decrease Priority
 						pq.decreaseKey(edge.to.heap_index, alt);
 					}
 				}
@@ -251,8 +252,8 @@ public class WeightedGraph {
 		else if (w.dist == INFINITY)
 			System.out.println(destName + " is unreachable");
 		else {
-			System.out.print("(Distance is: " + w.dist + ") ");
 			printDijPath(w);
+			System.out.print(" " + w.dist);
 			System.out.println();
 		}
 	}
@@ -263,7 +264,7 @@ public class WeightedGraph {
 	private void printDijPath(Vertex end) {
 		if (end.prev != null) {
 			printDijPath(end.prev);
-			System.out.print(" to ");
+			System.out.print(" ");
 		}
 		System.out.print(end.name);
 	}

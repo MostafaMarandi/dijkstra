@@ -153,7 +153,6 @@ public class Graph {
 			String tempQuery1 = st.nextToken();
 			String tempQuery2 = st.nextToken();
 			Double tempQuery3 = Double.parseDouble(st.nextToken());
-			System.out.println("cost : " + tempQuery3);
 			switch (tempQuery0) {
 
 			case "addedge":
