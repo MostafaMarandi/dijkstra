@@ -101,6 +101,7 @@ public class Graph {
 				break;
 			case "reachable":
 				// TODO: Add reachable function
+				GraphReachable.reachable(g);
 				break;
 			case "quit":
 				quit = true;

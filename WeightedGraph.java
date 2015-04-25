@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 
 public class WeightedGraph {
 	public static final double INFINITY = Double.MAX_VALUE;
-	private Map<String, Vertex> vertexMap = new HashMap<String, Vertex>();
+	protected Map<String, Vertex> vertexMap = new HashMap<String, Vertex>();
 
 	public void addBiEdge(String sourceName, String destName, double cost) {
 		Vertex u = getVertex(sourceName);
