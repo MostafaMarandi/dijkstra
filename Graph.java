@@ -16,8 +16,8 @@ public class Graph {
 
 		WeightedGraph g = new WeightedGraph();
 		try {
-			// FileReader fin = new FileReader(args[0]);
-			FileReader fin = new FileReader("network.txt");
+			 FileReader fin = new FileReader(args[0]);
+//			FileReader fin = new FileReader("network.txt");
 			Scanner graphFile = new Scanner(fin);
 
 			// Read the edges and insert
@@ -48,37 +48,6 @@ public class Graph {
 				queryMatcher(query, g);
 
 			}
-			// Output: print
-			// g.printGraph();
-
-			// Output: addedge
-			// g.addEdge("Prem", "Kumar", 9.9);
-			// Output: deleteedge
-			// g.deleteEdge("Kumar","Prem");
-			// Output: edgedown
-			// g.edgeDown("Woodward", "Belk");
-			// Output: edgeup
-			// g.edgeUp("Woodward", "Belk");
-			// Output: vertexdown
-			// g.vertexDown("Woodward");
-			// g.vertexDown("Prem");
-			// g.vertexDown("Belk");
-			// Output: vertexup
-			// g.vertexUp("Woodward");
-			// g.printGraph();
-			// g.dijPath("Health");
-			// g.printPath("Education");
-			// g.addEdge("Grigg", "Duke", 2.6);
-//			g.edgeDown("Health", "Education");
-//			g.edgeDown("Woodward", "Education");
-//			g.edgeDown("Duke", "Education");
-//			g.dijPath("Belk");
-//			g.printPath("Education");
-//			g.printGraph();
-//			g.edgeUp("Duke", "Education");
-//			g.dijPath("Belk");
-//			g.printPath("Education");
-//			g.printGraph();
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -101,7 +70,8 @@ public class Graph {
 				break;
 			case "reachable":
 				// TODO: Add reachable function
-				GraphReachable.reachable(g);
+//				GraphReachable.reachable(g);
+				ReachablewBFS.reachableBfs(g);
 				break;
 			case "quit":
 				quit = true;

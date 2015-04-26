@@ -2,7 +2,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
 public class Vertex {
 
 	public String name; // Vertex name
@@ -10,16 +9,22 @@ public class Vertex {
 	public Vertex prev; // Previous vertex on shortest path
 	public double dist; // Distance of path
 	public String status = "";
-	public int heap_index; //Used to maintain the current position in the Binary Heap
-	
+	public int heap_index; // Used to maintain the current position in the
+							// Binary Heap
+
 	// Reachability's DataStructures
 	public String color;
-	public Map<String,Vertex> reachMap;
-	
+	// public Map<String,Vertex> reachMap;
+	public static Map<String, HashMap<String, Vertex>> reachMap = new HashMap<String, HashMap<String, Vertex>>();
+	public HashMap<String, Vertex> reached;
+	public HashMap<String, Vertex> adjMap;
+
 	public Vertex(String nm) {
 		name = nm;
 		adjEdges = new LinkedList<Edge>();
-		reachMap = new HashMap<String, Vertex>();
+		adjMap = new HashMap<String, Vertex>();
+		reached = new HashMap<String, Vertex>();
+		// reachMap = new HashMap<String, HashMap<String,Vertex>>();
 		reset();
 	}
 
@@ -28,5 +33,5 @@ public class Vertex {
 		prev = null;
 		color = "WHITE";
 	}
-	
+
 }
