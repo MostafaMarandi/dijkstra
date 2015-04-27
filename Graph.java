@@ -1,3 +1,11 @@
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * It contains the main method, where the input query is processed to call the correct method.
+ */
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,8 +24,8 @@ public class Graph {
 
 		WeightedGraph g = new WeightedGraph();
 		try {
-			 FileReader fin = new FileReader(args[0]);
-//			FileReader fin = new FileReader("network.txt");
+			FileReader fin = new FileReader(args[0]);
+			// FileReader fin = new FileReader("network.txt");
 			Scanner graphFile = new Scanner(fin);
 
 			// Read the edges and insert
@@ -40,7 +48,8 @@ public class Graph {
 					System.err.println("Skipping ill-formatted line " + line);
 				}
 			}
-
+			graphFile.close();
+			
 			Scanner input = new Scanner(System.in);
 			String query;
 			while (!quit) {
@@ -48,6 +57,7 @@ public class Graph {
 				queryMatcher(query, g);
 
 			}
+			input.close();
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -70,7 +80,7 @@ public class Graph {
 				break;
 			case "reachable":
 				// TODO: Add reachable function
-//				GraphReachable.reachable(g);
+				// GraphReachable.reachable(g);
 				ReachablewBFS.reachableBfs(g);
 				break;
 			case "quit":

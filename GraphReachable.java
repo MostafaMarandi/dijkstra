@@ -1,4 +1,16 @@
-import java.util.HashMap;
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * INCOMPLETE - Dynamic Programming
+ * 
+ * Tried the same reachable function with dynamic programming to find more efficient method.
+ * But this is incomplete as of now.
+ * 
+ * Note: I may update in the next submission.
+ */
+
 import java.util.LinkedList;
 
 public class GraphReachable {
@@ -36,14 +48,15 @@ public class GraphReachable {
 			Vertex u = q.removeFirst(); // Constant time operation
 
 			for (Edge edge : u.adjEdges) {
-				if (!edge.to.status.equals("DOWN") && !edge.status.equals("DOWN")) {
-					
+				if (!edge.to.status.equals("DOWN")
+						&& !edge.status.equals("DOWN")) {
+
 					u.adjMap.put(edge.to.name, edge.to);
 					u.reached.put(edge.to.name, edge.to);
 					if (edge.to.color.equals("WHITE")) {
-					
+
 						edge.to.color = "GREY";
-						
+
 						// TODO:Try PUT ALL map
 						q.add(edge.to); // Enqueue
 					}

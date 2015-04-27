@@ -1,3 +1,10 @@
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * Gives the structure for Edge object.
+ */
 
 public class Edge {
 

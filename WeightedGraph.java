@@ -1,10 +1,17 @@
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * It contains the implementation of the Dijkstra's algorithm to find the 
+ * shortest path, other methods to edit and print the graph.
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class WeightedGraph {
 	public static final double INFINITY = Double.MAX_VALUE;
@@ -17,9 +24,6 @@ public class WeightedGraph {
 		Edge vu = new Edge(v, u, cost);
 		u.adjEdges.add(uv);
 		v.adjEdges.add(vu);
-		// Debug Message: - Created printGraph so disabling this
-		// System.out.println(uv.toString());
-		// System.out.println(vu.toString());
 	}
 
 	/**
@@ -47,7 +51,6 @@ public class WeightedGraph {
 			Vertex u = getVertex(tailName);
 			Vertex v = getVertex(headName);
 			Edge uv = new Edge(u, v, cost);
-			// System.out.println("String from"+uv.toString());
 			u.adjEdges.add(uv);
 		}
 
@@ -208,20 +211,13 @@ public class WeightedGraph {
 		}
 
 		start.dist = 0.0;
-//		LinkedList<Vertex> q = new LinkedList<Vertex>();
-//		for (Vertex v : vertexMap.values()) {
-//			if (!v.status.equals("DOWN")) {
-//				q.add(v);
-//			}
-//		}
-		
+
 		Heap pq = new Heap(new ArrayList<Vertex>(vertexMap.values()));
 
 		// Algorithm
 		while (!pq.isEmpty()) {
 
 			Vertex u = (Vertex) pq.extractMin();
-//			q.remove(u);
 
 			for (Edge edge : u.adjEdges) {
 				if (!edge.to.status.equals("DOWN")
@@ -232,7 +228,7 @@ public class WeightedGraph {
 					if (alt < edge.to.dist) {
 						edge.to.dist = alt;
 						edge.to.prev = u;
-						//Decrease Priority
+						// Decrease Priority
 						pq.decreaseKey(edge.to.heap_index, alt);
 					}
 				}
@@ -269,6 +265,7 @@ public class WeightedGraph {
 		System.out.print(end.name);
 	}
 
+	//TODO: Delete this method after minheap
 	private Vertex returnMin(LinkedList<Vertex> l) {
 
 		Vertex v = l.getFirst();

@@ -1,3 +1,11 @@
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * Gives the structure for Vertex object.
+ */
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;

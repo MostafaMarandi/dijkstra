@@ -1,3 +1,11 @@
+/**
+ * 
+ * Author   : Prem Kumar Murugesan
+ * StudentID: 800888499
+ * 
+ * Implemented the Binary Min Heap, which is used as the priority queue in dijkstra's algorithm.
+ */
+
 import java.util.ArrayList;
 
 public class Heap {
@@ -45,7 +53,7 @@ public class Heap {
 				unsortedQ.get(r).heap_index = i;
 				unsortedQ.get(i).heap_index = r;
 				smallest = r;
-			} else{
+			} else {
 				unsortedQ.get(r).heap_index = r;
 				unsortedQ.get(i).heap_index = i;
 			}
@@ -75,7 +83,6 @@ public class Heap {
 		if (n > 0) {
 			minHeapify(sortedQ, 0, n);
 		}
-		
 
 		return min;
 	}
@@ -90,7 +97,7 @@ public class Heap {
 			// Change heap_index
 			sortedQ.get(parent(i)).heap_index = i;
 			sortedQ.get(i).heap_index = parent(i);
-			
+
 			Vertex temp = sortedQ.get(i);
 			sortedQ.set(i, sortedQ.get(parent(i)));
 			sortedQ.set(parent(i), temp);
@@ -99,9 +106,10 @@ public class Heap {
 	}
 
 	// Get the Parent of a node
-	private int parent(int i){
-		return (i-1)/2;
+	private int parent(int i) {
+		return (i - 1) / 2;
 	}
+
 	// Get the left child of the node
 	private int left(int i) {
 		return 2 * i + 1;
@@ -112,6 +120,7 @@ public class Heap {
 		return 2 * i + 2;
 	}
 
+	// Check the heap is empty
 	public boolean isEmpty() {
 		return sortedQ.isEmpty();
 	}
